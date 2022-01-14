@@ -9,7 +9,7 @@ tone = {'#2': 0, '#1': 0, '#4': 0, '#3': 0} # '#1', '#2', '#3', '#4'
 
 
 hz = {}
-with open('/home/spurs/tts/dataset/bznsyp/pinyin.txt', 'r', encoding='utf-8') as f:
+with open('/home/tts/aa/tacotronv2_wavernn_chinese/tacotron/pinyin/pinyin.txt', 'r', encoding='utf-8') as f:
     i = 0 
     for line in f:
         if i < 2:
@@ -24,7 +24,7 @@ with open('/home/spurs/tts/dataset/bznsyp/pinyin.txt', 'r', encoding='utf-8') as
         hz[word] = py
 
 phrase = {}
-with open('/home/spurs/tts/dataset/bznsyp/large_pinyin.txt', 'r', encoding='utf-8') as f:
+with open('/home/tts/aa/tacotronv2_wavernn_chinese/tacotron/pinyin/large_pinyin.txt', 'r', encoding='utf-8') as f:
     i = 0 
     for line in f:
         if i < 2:

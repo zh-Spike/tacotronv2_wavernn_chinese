@@ -39,6 +39,7 @@
             <br>
             <div id='wav'>
                 <textarea rows="8" id="text" autocomplete="off" style="min-height:64px;width:90%;">数星星的工作让科学家发现了天体在宇宙里的分布和运动规律，这也是最早的天文学研究方法。那天上的星星是什么？它的物理本质是什么？起源是什么？内部结构是什么？又如何演化？最终命运又是什么？这些疑问激起了物理学家的极大兴趣。</textarea>
+                <textarea rows="1" id="version" autocomplete="off">1</textarea>
                 <br/>
                 <!--<button onclick="generate_tts()" id="button">合成</button> -->
                 <button id="button">合成</button>
@@ -89,7 +90,9 @@
             $("#button").attr("disabled", true);
             document.getElementById("button").textContent = "合成中"
             var input = document.getElementById('text').value || document.getElementById('text').placeholder;
+            var inputversion = document.getElementById('version').value || document.getElementById('version').placeholder;
             input = input.trim();
+            inputversion = inputversion.trim();
             if (input.length > 0){
                 var container = document.getElementById('wav');
                 var p = document.createElement('p');
@@ -98,7 +101,9 @@
                     url:    "/generate_tts",
                     type:   "POST",
                     dataType: "json",
-                    data:{'txt': input},
+                    data:{'txt': input,
+                          'version': inputversion    
+                    },
                     success:function(res){
                         update_content(res, container);
                         $("#button").attr("disabled", false);

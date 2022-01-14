@@ -27,7 +27,7 @@ import grpc
 def index():
     return render_template('index.html')
 
-def request_server(seq, seq_length, host, port):
+def request_server(seq, seq_length, host, port,version):
     options = [('grpc.max_send_message_length', 1000 * 1024 * 1024), 
             ('grpc.max_receive_message_length', 1000 * 1024 * 1024)]  
 
@@ -38,6 +38,7 @@ def request_server(seq, seq_length, host, port):
 
     request = predict_pb2.PredictRequest()
     request.model_spec.name = "tacotron_fw"  # 模型名称
+    request.model_spec.version.value = int(version)
     request.model_spec.signature_name = "tacotron_fw"  # 签名名称
 
     # 导出模型时设置的输入名称
@@ -53,6 +54,7 @@ def request_server(seq, seq_length, host, port):
 @app.route('/generate_tts', methods=['POST'])
 def generate_tts():
     txt = request.form.get('txt')
+    num = request.form.get('version')
     ret = {}
     ret['txt'] = txt
     pyin, txt = get_pyin(txt)
@@ -75,7 +77,7 @@ def generate_tts():
     response = requests.post('http://localhost:8500/v1/models/tacoton_fw:predict', json=data)
     #response = requests.post('http://localhost:8500/v1/models/tacoton_fw:predict', data=data)
     '''
-    response = request_server(seq, seq_length, host, port)
+    response = request_server(seq, seq_length, host, port,num)
     #mel = response.json()['mel'][0]
     mel = tf.make_ndarray(response.outputs["mel"])
     wav = inv_mel_spectrogram(mel.T)
